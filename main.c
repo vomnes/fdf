@@ -28,7 +28,7 @@ int main(int args, char **argv)
     length_width = ft_size_input(input);
     if (!(coord = (t_point*)malloc(sizeof(t_point) * length_width)))
         return (-1);
-    ft_transform_input(input, coord, length_width);
+    ft_coord_in_struct(input, coord, length_width);
     /*mlx = mlx_init();
     win = mlx_new_window(mlx, 600, 600, "fdf");
     ft_draw_line(10, 5, i, 0, mlx, win);

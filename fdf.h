@@ -40,7 +40,7 @@ typedef	struct		s_point
 
 char	*ft_get_input(int fd);
 
-int ft_transform_input(char *input, t_point *coord, int len);
+int ft_coord_in_struct(char *input, t_point *coord, int len);
 int ft_size_input(char *input);
 
 int ft_draw_line(int x0, int y0, int x1, int y1, void *mlx, void *win);

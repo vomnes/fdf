@@ -48,7 +48,7 @@ static void	ft_change_line(char *input, int *i, int *y, int *x)
 	}
 }
 
-int			ft_transform_input(char *input, t_point *coord, int len)
+int			ft_coord_in_struct(char *input, t_point *coord, int len)
 {
 	int i;
 	int x;
