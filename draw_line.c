@@ -33,7 +33,7 @@ static int ft_line_slow(int x0, int y0, int x1, int y1, void *mlx, void *win)
     x = x0;
     while (x <= x1)
     {
-        mlx_pixel_put(mlx, win, x, y0 + (dy * (x - x0) / dx), 0x00FAAFF);
+        mlx_pixel_put(mlx, win, x, y0 + (dy * (x - x0) / dx), 0x00AAFF);
         x++;
     }
     return (0);

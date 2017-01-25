@@ -1,5 +1,5 @@
 NAME = fdf
-SRC_PF = 
+SRC_PF =
 
 OBJET_PF = $(SRC_PF:.c=.o)
 
