@@ -68,11 +68,36 @@ static int ft_line_hard(int x0, int y0, int x1, int y1, void *mlx, void *win)
 
 int ft_draw_line(int x0, int y0, int x1, int y1, void *mlx, void *win)
 {
-    if (x1 > y1 && y1 < y0 && abs(x1 - x0) < abs(y1 - y0))
-        ft_line_hard(x0, y0, x1, y1, mlx, win);
-    else if (x1 < y1 && y1 > y0 && abs(x1 - x0) < abs(y1 - y0))
+    if (abs(x1 - x0) < abs(y1 - y0) || abs(x1 - x0) < abs(y1 - y0))
         ft_line_hard(x0, y0, x1, y1, mlx, win);
     else
         ft_line_slow(x0, y0, x1, y1, mlx, win);
     return (0);
 }
+
+/*
+i = 0;
+while (i < 600)
+{
+    ft_draw_line(300, 300, i, 0, mlx, win);
+    i += 1;
+}
+i = 0;
+while (i < 600)
+{
+    ft_draw_line(300, 300, 600, i, mlx, win);
+    i += 1;
+}
+i = 600;
+while (i > 0)
+{
+    ft_draw_line(300, 300, i, 600, mlx, win);
+    i -= 1;
+}
+i = 600;
+while (i > 0)
+{
+    ft_draw_line(300, 300, 0, i, mlx, win);
+    i -= 1;
+}
+*/
