@@ -15,10 +15,18 @@
 static void	ft_get_digit(char *input, t_point *coord, int *i, int *index)
 {
 	int index_hex;
+	int sign;
 
 	index_hex = 0;
+	sign = 1;
+	if (input[*i] == '-')
+	{
+		(*i)++;
+		sign = -1;
+	}
 	while (ft_isdigit(input[*i]))
 		coord[*index].z = coord[*index].z * 10 + (input[(*i)++] - '0');
+	coord[*index].z *= sign;
 	if (input[*i] == ',')
 	{
 		*i += 3;
@@ -62,7 +70,7 @@ int			ft_coord_in_struct(char *input, t_point *coord, int len)
 	while (input[i] && index < len)
 	{
 		ft_init_t_point(coord, &index);
-		if (ft_isdigit(input[i]))
+		if (ft_isdigit(input[i]) || input[i] == '-')
 		{
 			coord[index].x = x;
 			coord[index].y = y;
@@ -74,23 +82,6 @@ int			ft_coord_in_struct(char *input, t_point *coord, int len)
 		i++;
 	}
 	return (0);
-}
-
-int			ft_size_input(char *input)
-{
-	int i;
-	int length;
-
-	i = 0;
-	length = 0;
-	while (input[i] != '\0')
-	{
-		if (ft_isxdigit(input[i]) && (input[i + 1] == ' '
-			|| input[i + 1] == '\n'))
-			length++;
-		i++;
-	}
-	return (length);
 }
 
 /*

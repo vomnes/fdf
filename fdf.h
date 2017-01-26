@@ -41,7 +41,11 @@ typedef	struct		s_point
 char	*ft_get_input(int fd);
 
 int ft_coord_in_struct(char *input, t_point *coord, int len);
-int ft_size_input(char *input);
+
+int			ft_max_length(char *input);
+int			ft_width(char *input);
+
+int ft_build_3d(t_point *coord, int length, int width, void *mlx, void *win);
 
 int ft_draw_line(int x0, int y0, int x1, int y1, void *mlx, void *win);
 
