@@ -35,6 +35,7 @@ static void	ft_get_digit(char *input, t_point *coord, int *i, int *index)
 			coord[*index].color.rgb_hex[index_hex++] = input[(*i)++];
 		coord[*index].color.rgb_int =
 		ft_hex_to_dec(coord[*index].color.rgb_hex);
+		coord[*index].color.pick_up = 1;
 	}
 }
 
@@ -45,6 +46,7 @@ static void	ft_init_t_point(t_point *coord, int *index)
 	coord[*index].z = 0;
 	coord[*index].color.rgb_int = 0;
 	ft_bzero(coord[*index].color.rgb_hex, 10);
+	coord[*index].color.pick_up = 0;
 }
 
 static void	ft_change_line(char *input, int *i, int *y, int *x)
@@ -75,6 +77,8 @@ int			ft_coord_in_struct(char *input, t_point *coord, int len)
 			coord[index].x = x;
 			coord[index].y = y;
 			ft_get_digit(input, coord, &i, &index);
+			ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index,
+			coord[index].x, coord[index].y, coord[index].z, coord[index].color.rgb_hex, coord[index].color.rgb_int, coord[index].color.pick_up);
 			x++;
 			index++;
 		}

@@ -28,6 +28,7 @@ typedef	struct		s_color
 {
     char            rgb_hex[10];
     int             rgb_int;
+    int             pick_up;
 }                   t_color;
 
 typedef	struct		s_point
