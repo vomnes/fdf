@@ -67,10 +67,10 @@ int ft_build_3d(t_point *coord, int length, int width, void *mlx, void *win)
     float zoom_one;
 
     i = 0;
-    plus_x = 400;
-    plus_y = 10;
+    plus_x = 225;
+    plus_y = 150;
     zoom = 30;
-    zoom_one = 20;
+    zoom_one = 30;
     int angle;
     angle = 90;
     float var1 = -0.81649658092;
@@ -90,6 +90,14 @@ int ft_build_3d(t_point *coord, int length, int width, void *mlx, void *win)
         y_b = var1 * coord[i + 1].z * zoom_one + (1 / sqrt(6) * (coord[i + 1].x + coord[i + 1].y)) * zoom;
         x_c = sqrt(2)/2 * (coord[i + length].x - coord[i + length].y) * zoom;
         y_c = var1 * coord[i + length].z * zoom_one + (1 / sqrt(6) * (coord[i + length].x + coord[i + length].y)) * zoom;
+
+        /*new_x_a = x_a * cos(10) - x_a * sin(10);
+        new_y_a = x_a * sin(10) - y_a * cos(10);
+        new_x_b = x_b * cos(10) - x_b * sin(10);
+        new_y_b = x_b * sin(10) - x_b * cos(10);
+        new_x_c = x_c * cos(10) - x_c * sin(10);
+        new_y_c = x_c * sin(10) - x_c * cos(10);*/
+
         if (coord[i].x < length - 1)
             ft_draw_line(x_a + plus_x, y_a + plus_y, x_b + plus_x, y_b + plus_y, mlx, win);
         if (coord[i].y < width - 1)

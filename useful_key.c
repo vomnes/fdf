@@ -24,3 +24,4 @@ int ft_push_exit(int keycode, void *param)
         exit(1);
     return (0);
 }
+//mlx_key_hook(win, ft_add, 0);
