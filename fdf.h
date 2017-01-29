@@ -29,20 +29,21 @@
 # define ARROW_DOWN 125
 # define ARROW_UP 126
 
+typedef	struct		s_print
+{
+    int              x0;
+    int              y0;
+    int              x1;
+    int              y1;
+    int              color;
+}                   t_print;
+
 typedef	struct		s_color
 {
     char            rgb_hex[10];
     int             rgb_int;
     int             pick_up;
 }                   t_color;
-
-typedef	struct		s_draw
-{
-    float            x_one;
-    float            y_one;
-    float            x_two;
-    float            y_two;
-}                   t_draw;
 
 typedef	struct		s_point
 {
@@ -64,6 +65,8 @@ typedef	struct		s_data
     int             map_total_size;
     int             pos_x;
     int             pos_y;
+    float             zoom;
+    float           deep;
 }                   t_data;
 
 
@@ -76,9 +79,9 @@ int         ft_coord_in_struct(char *input, t_point *coord, int len);
 int			ft_max_length(char *input);
 int			ft_width(char *input);
 
-int ft_build_3d(t_point *coord, t_data *data);
+int ft_build_3d(t_point *coord, t_data *data, t_print *print);
 
-int         ft_draw_line(int x0, int y0, int x1, int y1, void *mlx, void *win);
+int         ft_draw_line(t_print *print, t_data *data);
 
 int         ft_print_key_num(int keycode, void *param);
 int         ft_push_exit(int keycode, void *param);

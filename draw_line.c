@@ -12,68 +12,71 @@
 
 # include "fdf.h"
 
-static int ft_line_slow(int x0, int y0, int x1, int y1, void *mlx, void *win)
+static int ft_line_slow(t_print *print, t_data *data)
 {
     int dx;
     int dy;
     int x;
 
-    if (x1 - x0 < 0 && y1 - y0 >= 0)
+    if (print->x1 - print->x0 < 0 && print->y1 - print->y0 >= 0)
     {
-        ft_swap(&x0, &x1);
-        ft_swap(&y0, &y1);
+        ft_swap(&(print->x0), &(print->x1));
+        ft_swap(&(print->y0), &(print->y1));
     }
-    else if (x1 - x0 < 0 && y1 - y0 < 0)
+    else if (print->x1 - print->x0 < 0 && print->y1 - print->y0 < 0)
     {
-        ft_swap(&x0, &x1);
-        ft_swap(&y0, &y1);
+        ft_swap(&(print->x0), &(print->x1));
+        ft_swap(&(print->y0), &(print->y1));
     }
-    dx = x1 - x0;
-    dy = y1 - y0;
-    x = x0;
-    while (x <= x1)
+    dx = print->x1 - print->x0;
+    dy = print->y1 - print->y0;
+    x = print->x0;
+    while (x <= print->x1)
     {
-        mlx_pixel_put(mlx, win, x, y0 + (dy * (x - x0) / dx), 0x00AAFF);
+        mlx_pixel_put(data->mlx, data->win, x, print->y0 +
+        (dy * (x - print->x0) / dx), print->color);
         x++;
     }
     return (0);
 }
 
-static int ft_line_hard(int x0, int y0, int x1, int y1, void *mlx, void *win)
+static int ft_line_hard(t_print *print, t_data *data)
 {
     int dx;
     int dy;
     int y;
 
-    if (x1 - x0 >= 0 && y1 - y0 <= 0)
+    if (print->x1 - print->x0 >= 0 && print->y1 - print->y0 <= 0)
     {
-        ft_swap(&x0, &x1);
-        ft_swap(&y0, &y1);
+        ft_swap(&(print->x0), &(print->x1));
+        ft_swap(&(print->y0), &(print->y1));
     }
-    else if (x1 - x0 < 0 && y1 - y0 < 0)
+    else if (print->x1 - print->x0 < 0 && print->y1 - print->y0 < 0)
     {
-        ft_swap(&x0, &x1);
-        ft_swap(&y0, &y1);
+        ft_swap(&(print->x0), &(print->x1));
+        ft_swap(&(print->y0), &(print->y1));
     }
-    dx = x1 - x0;
-    dy = y1 - y0;
-    y = y0;
-    while (y <= y1)
+    dx = print->x1 - print->x0;
+    dy = print->y1 - print->y0;
+    y = print->y0;
+    while (y <= print->y1)
     {
-        mlx_pixel_put(mlx, win, x0 + (dx * (y - y0) / dy), y, 0x00FAAFF);
+        mlx_pixel_put(data->mlx, data->win, print->x0 +
+        (dx * (y - print->y0) / dy), y, print->color);
         y++;
     }
     return (0);
 }
 
-int ft_draw_line(int x0, int y0, int x1, int y1, void *mlx, void *win)
+int ft_draw_line(t_print *print, t_data *data)
 {
-    if (x0 != x1 || y0 != y1)
+    if (print->x0 != print->x1 || print->y0 != print->y1)
     {
-        if (abs(x1 - x0) < abs(y1 - y0) || abs(x1 - x0) < abs(y1 - y0))
-            ft_line_hard(x0, y0, x1, y1, mlx, win);
+        if (abs(print->x1 - print->x0) < abs(print->y1 - print->y0)
+        || abs(print->x1 - print->x0) < abs(print->y1 - print->y0))
+            ft_line_hard(print, data);
         else
-            ft_line_slow(x0, y0, x1, y1, mlx, win);
+            ft_line_slow(print, data);
     }
     return (0);
 }
