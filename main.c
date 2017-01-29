@@ -98,17 +98,17 @@ static void	ft_init_data(t_data *data, int fd)
     data->zoom = 5;
     data->pos_x = 0;
     data->pos_y = 0;
-    data->deep = 2;
+    data->deep = 30;
 }
-
+/*
 int ft_move_xy(int keycode, t_data *data, void *param);
 
 int expose_hook(t_point *coord, t_data *data)
 {
-    ft_build_3d(coord, data);
+    ft_build_3d(coord, data, print);
     return (0);
 }
-
+*/
 void ft_get_zoom(t_data *data)
 {
     if (data->map_total_size <= 250)
@@ -141,6 +141,7 @@ int main(int args, char **argv)
 {
     t_point *coord;
     t_data  data;
+    t_print  print;
     int fd;
     int i;
 
@@ -159,10 +160,12 @@ int main(int args, char **argv)
     data.pos_y = ft_check_min_y(coord, &data) + 50;
     data.win_width = ft_check_max_x(coord, &data) + data.pos_x + 50;
     data.win_height = ft_check_max_y(coord, &data) + data.pos_y + 50;
+    data.win_width = (data.win_width > 2250) ? 2250 : data.win_width;
+    data.win_height = (data.win_height > 1250) ? 1250 : data.win_height;
     data.mlx = mlx_init();
     data.win = mlx_new_window(data.mlx, data.win_width,
     data.win_height, "fdf");
-    ft_build_3d(coord, &data);
+    ft_build_3d(coord, &data, &print);
     ft_printf("map_length >> %d\n", data.map_length);
     ft_printf("map_width >> %d\n", data.map_width);
     ft_printf("map_total_size >> %d\n", data.map_total_size);
