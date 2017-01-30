@@ -11,27 +11,8 @@
 /* ************************************************************************** */
 
 # include "fdf.h"
+
 /*
-void ft_rotation_x(t_point *coord, int angle, t_data *data)
-{
-    int i;
-    int new_y;
-    int new_z;
-
-    i = 0;
-    new_y = 0;
-    new_z = 0;
-    while (i < data->map_total_size)
-    {
-    //    coord[i].z = 0;
-        new_y = coord[i].y * cos(angle)  + coord[i].z * sin(angle);
-        new_z = -coord[i].y * sin(angle) + coord[i].z * cos(angle);
-        coord[i].y = new_y;
-        coord[i].z = new_z;
-        i++;
-    }
-}
-
 void ft_rotation_y(t_point *coord, int angle, t_data *data)
 {
     int i;
@@ -55,61 +36,102 @@ void ft_rotation_y(t_point *coord, int angle, t_data *data)
 
 void ft_manage_colors(t_env *env, int *i, int plus)
 {
+    int scale_i;
+    int scale_plus;
+
+//    ft_printf("env->data.z_max : %d - env->data.z_min : %d\n", env->data.z_max, env->data.z_min);
+    scale_i = 10 / env->data.z_max * env->coord[*i].z;
+    ft_printf("scale_i : %d\n", scale_i);
+    scale_plus = env->coord[*i + plus].z;
+/*
+    if (scale_i == 10 || scale_plus == 10)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 9 || scale_plus == 9)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 8 || scale_plus == 8)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 7 || scale_plus == 7)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 6 || scale_plus == 6)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 5 || scale_plus == 5)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 4 || scale_plus == 4)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 3 || scale_plus == 3)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 2 || scale_plus == 2)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 1 || scale_plus == 1)
+        env->print.color = COLOR_GREEN;
+    if (scale_i == 0 || scale_plus == 0)
+        env->print.color = COLOR_GREEN;
+*/
     if (env->coord[*i].color.pick_up == 1 && env->coord[*i + plus].color.pick_up == 1)
         env->print.color = env->coord[*i].color.rgb_int;
-    else if (env->coord[*i].z == 0)
-        env->print.color = 0x0080ccff;
-    else if (env->coord[*i].z > 0 || env->coord[*i + plus].z > 0)
-        env->print.color = 0x00b33c;
+    else if ((scale_i <= 10 && scale_i > 0) || (scale_plus <= 10 && scale_plus > 0))
+        env->print.color = COLOR_GREEN;
+    else if (scale_i > 10 || scale_plus > 10)
+        env->print.color = COLOR_BROWN;
+    else if (scale_i == 0)
+        env->print.color = COLOR_BLUE;
     else
-        env->print.color = 0x00994d00;
+        env->print.color = COLOR_BROWN;
 }
 
-int ft_build_3d(t_env *env)
+void ft_rotation_x(t_env *e, int angle)
 {
     int i;
-    float x_a = 0;
-    float y_a = 0;
-    float x_b;
-    float y_b;
-    float x_c;
-    float y_c;
-    int plus_x;
-    int plus_y;
-    float zoom;
-    float zoom_one;
-    int length;
-    int min;
-    int check_min;
+    int tmp;
 
-    zoom = env->data.zoom;
-    zoom_one = env->data.deep;
-    float var1 = -0.81649658092;
-    length = env->data.map_length;
-    plus_x = env->data.pos_x;//sqrt(2)/2 * (coord[data->map_width].x - coord[data->map_width].y) * zoom;
-    plus_y = env->data.pos_y;//var1 * coord[0].z * zoom_one + (1 / sqrt(6) * (coord[0].x + coord[0].y)) * zoom;
     i = 0;
-    while (i < env->data.map_total_size)
+    tmp = 0;
+    while (i < e->data.map_total_size)
     {
-        x_a = sqrt(2)/2 * (env->coord[i].x - env->coord[i].y) * zoom;
-        y_a = var1 * env->coord[i].z * zoom_one + (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * zoom;
-        x_b = sqrt(2)/2 * (env->coord[i + 1].x - env->coord[i + 1].y) * zoom;
-        y_b = var1 * env->coord[i + 1].z * zoom_one + (1 / sqrt(6) * (env->coord[i + 1].x + env->coord[i + 1].y)) * zoom;
-        x_c = sqrt(2)/2 * (env->coord[i + length].x - env->coord[i + length].y) * zoom;
-        y_c = var1 * env->coord[i + length].z * zoom_one + (1 / sqrt(6) * (env->coord[i + length].x + env->coord[i + length].y)) * zoom;
+        tmp = e->coord[i].y;
+        e->coord[i].y = e->coord[i].y * cos(angle) + e->coord[i].z * sin(angle);
+        e->coord[i].z = -tmp * sin(angle) + e->coord[i].z * cos(angle);
+        i++;
+    }
+}
 
-        ft_manage_colors(env, &i, 1);
-        env->print.x0 = x_a + plus_x;
-        env->print.y0 = y_a + plus_y;
-        env->print.x1 = x_b + plus_x;
-        env->print.y1 = y_b + plus_y;
-        if (env->coord[i].x < env->data.map_length - 1)
-            ft_draw_line(env);
-        env->print.x1 = x_c + plus_x;
-        env->print.y1 = y_c + plus_y;
-        ft_manage_colors(env, &i, length);
-        if (env->coord[i].y < env->data.map_width - 1)
-            ft_draw_line(env);
+int ft_build_iso(t_env *e)
+{
+    t_edit pos;
+    int length;
+    int i;
+    float sqrt_z;
+    int angle;
+
+    i = 0;
+    angle = -90;
+    sqrt_z = -0.81649658092;
+    length = e->data.map_length;
+
+    //ft_rotation_x(e, angle);
+    while (i < e->data.map_total_size)
+    {
+        pos.x_a = sqrt(2)/2 * (e->coord[i].x - e->coord[i].y) * e->data.zoom + e->data.pos_x;
+        pos.y_a = sqrt_z * e->coord[i].z * e->data.deep + (1 / sqrt(6) * (e->coord[i].x + e->coord[i].y)) * e->data.zoom + e->data.pos_y;
+        pos.x_b = sqrt(2)/2 * (e->coord[i + 1].x - e->coord[i + 1].y) * e->data.zoom + e->data.pos_x;
+        pos.y_b = sqrt_z * e->coord[i + 1].z * e->data.deep + (1 / sqrt(6) * (e->coord[i + 1].x + e->coord[i + 1].y)) * e->data.zoom + e->data.pos_y;
+        pos.x_c = sqrt(2)/2 * (e->coord[i + length].x - e->coord[i + length].y) * e->data.zoom + e->data.pos_x;
+        pos.y_c = sqrt_z * e->coord[i + length].z * e->data.deep + (1 / sqrt(6) * (e->coord[i + length].x + e->coord[i + length].y)) * e->data.zoom + e->data.pos_y;
+
+        ft_manage_colors(e, &i, 1);
+        e->print.x0 = pos.x_a;
+        e->print.y0 = pos.y_a;
+        e->print.x1 = pos.x_b;
+        e->print.y1 = pos.y_b;
+        if (e->coord[i].x < e->data.map_length - 1)
+            ft_draw_line(e);
+        e->print.x0 = pos.x_a;
+        e->print.y0 = pos.y_a;
+        e->print.x1 = pos.x_c;
+        e->print.y1 = pos.y_c;
+        ft_manage_colors(e, &i, length);
+        if (e->coord[i].y < e->data.map_width - 1)
+            ft_draw_line(e);
         i++;
     }
     return (0);
