@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 # include "fdf.h"
-
+/*
 void ft_rotation_x(t_point *coord, int angle, t_data *data)
 {
     int i;
@@ -51,8 +51,8 @@ void ft_rotation_y(t_point *coord, int angle, t_data *data)
         i++;
     }
 }
-
-int ft_build_3d(t_point *coord, t_data *data, t_print *print)
+*/
+int ft_build_3d(t_env *env)
 {
     int i;
     float x_a = 0;
@@ -69,49 +69,49 @@ int ft_build_3d(t_point *coord, t_data *data, t_print *print)
     int min;
     int check_min;
 
-    zoom = data->zoom;
-    zoom_one = data->deep;
+    zoom = env->data.zoom;
+    zoom_one = env->data.deep;
     float var1 = -0.81649658092;
-    length = data->map_length;
-    plus_x = data->pos_x;//sqrt(2)/2 * (coord[data->map_width].x - coord[data->map_width].y) * zoom;
-    plus_y = data->pos_y;//var1 * coord[0].z * zoom_one + (1 / sqrt(6) * (coord[0].x + coord[0].y)) * zoom;
+    length = env->data.map_length;
+    plus_x = env->data.pos_x;//sqrt(2)/2 * (coord[data->map_width].x - coord[data->map_width].y) * zoom;
+    plus_y = env->data.pos_y;//var1 * coord[0].z * zoom_one + (1 / sqrt(6) * (coord[0].x + coord[0].y)) * zoom;
     i = 0;
-    while (i < data->map_total_size)
+    while (i < env->data.map_total_size)
     {
-        x_a = sqrt(2)/2 * (coord[i].x - coord[i].y) * zoom;
-        y_a = var1 * coord[i].z * zoom_one + (1 / sqrt(6) * (coord[i].x + coord[i].y)) * zoom;
-        x_b = sqrt(2)/2 * (coord[i + 1].x - coord[i + 1].y) * zoom;
-        y_b = var1 * coord[i + 1].z * zoom_one + (1 / sqrt(6) * (coord[i + 1].x + coord[i + 1].y)) * zoom;
-        x_c = sqrt(2)/2 * (coord[i + length].x - coord[i + length].y) * zoom;
-        y_c = var1 * coord[i + length].z * zoom_one + (1 / sqrt(6) * (coord[i + length].x + coord[i + length].y)) * zoom;
+        x_a = sqrt(2)/2 * (env->coord[i].x - env->coord[i].y) * zoom;
+        y_a = var1 * env->coord[i].z * zoom_one + (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * zoom;
+        x_b = sqrt(2)/2 * (env->coord[i + 1].x - env->coord[i + 1].y) * zoom;
+        y_b = var1 * env->coord[i + 1].z * zoom_one + (1 / sqrt(6) * (env->coord[i + 1].x + env->coord[i + 1].y)) * zoom;
+        x_c = sqrt(2)/2 * (env->coord[i + length].x - env->coord[i + length].y) * zoom;
+        y_c = var1 * env->coord[i + length].z * zoom_one + (1 / sqrt(6) * (env->coord[i + length].x + env->coord[i + length].y)) * zoom;
 
         //ft_printf("pick_up >> %d, rgb_hex >> %s\n", coord[i].color.pick_up, coord[i].color.rgb_hex);
-        if (coord[i].color.pick_up == 1 && coord[i + 1].color.pick_up == 1)
-            print->color = coord[i].color.rgb_int;
-        else if (coord[i].z == 0)
-            print->color = 0x0080ccff;
-        else if (coord[i].z > 0 || coord[i + 1].z > 0)
-            print->color = 0x00b33c;
+        if (env->coord[i].color.pick_up == 1 && env->coord[i + 1].color.pick_up == 1)
+            env->print.color = env->coord[i].color.rgb_int;
+        else if (env->coord[i].z == 0)
+            env->print.color = 0x0080ccff;
+        else if (env->coord[i].z > 0 || env->coord[i + 1].z > 0)
+            env->print.color = 0x00b33c;
         else
-            print->color = 0x00994d00;
-        print->x0 = x_a + plus_x;
-        print->y0 = y_a + plus_y;
-        print->x1 = x_b + plus_x;
-        print->y1 = y_b + plus_y;
-        if (coord[i].x < data->map_length - 1)
-            ft_draw_line(print, data);
-        if (coord[i].color.pick_up == 1 && coord[i + length].color.pick_up == 1)
-            print->color = coord[i].color.rgb_int;
-        else if (coord[i].z == 0)
-            print->color = 0x0080ccff;
-        else if (coord[i].z > 0 || coord[i + length].z > 0)
-            print->color = 0x00b33c;
+            env->print.color = 0x00994d00;
+        env->print.x0 = x_a + plus_x;
+        env->print.y0 = y_a + plus_y;
+        env->print.x1 = x_b + plus_x;
+        env->print.y1 = y_b + plus_y;
+        if (env->coord[i].x < env->data.map_length - 1)
+            ft_draw_line(env);
+        if (env->coord[i].color.pick_up == 1 && env->coord[i + length].color.pick_up == 1)
+            env->print.color = env->coord[i].color.rgb_int;
+        else if (env->coord[i].z == 0)
+            env->print.color = 0x0080ccff;
+        else if (env->coord[i].z > 0 || env->coord[i + length].z > 0)
+            env->print.color = 0x00b33c;
         else
-            print->color = 0x00000000;
-        print->x1 = x_c + plus_x;
-        print->y1 = y_c + plus_y;
-        if (coord[i].y < data->map_width - 1)
-            ft_draw_line(print, data);
+            env->print.color = 0x00000000;
+        env->print.x1 = x_c + plus_x;
+        env->print.y1 = y_c + plus_y;
+        if (env->coord[i].y < env->data.map_width - 1)
+            ft_draw_line(env);
         i++;
     }
     return (0);

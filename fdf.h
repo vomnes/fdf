@@ -29,6 +29,11 @@
 # define ARROW_DOWN 125
 # define ARROW_UP 126
 
+# define KEY_P 35
+# define KEY_L 37
+# define KEY_PLUS 69
+# define KEY_LESS 78
+
 typedef	struct		s_print
 {
     int              x0;
@@ -65,25 +70,30 @@ typedef	struct		s_data
     int             map_total_size;
     int             pos_x;
     int             pos_y;
-    float             zoom;
+    float           zoom;
     float           deep;
 }                   t_data;
 
+typedef	struct		s_env
+{
+    t_point         *coord;
+    t_print         print;
+    t_data          data;
+}                   t_env;
 
 
 
 char        *ft_get_input(int fd);
 
-int         ft_coord_in_struct(char *input, t_point *coord, int len);
+int         ft_coord_in_struct(char *input, t_env *env, int len);
 
 int			ft_max_length(char *input);
 int			ft_width(char *input);
 
-int ft_build_3d(t_point *coord, t_data *data, t_print *print);
+int ft_build_3d(t_env *env);
 
-int         ft_draw_line(t_print *print, t_data *data);
+int         ft_draw_line(t_env *env);
 
-int         ft_print_key_num(int keycode, void *param);
-int         ft_push_exit(int keycode, void *param);
+int ft_key_interact(int keycode, t_env *env);
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-static void	ft_get_digit(char *input, t_point *coord, int *i, int *index)
+static void	ft_get_digit(char *input, t_env *env, int *i, int *index)
 {
 	int index_hex;
 	int sign;
@@ -25,28 +25,28 @@ static void	ft_get_digit(char *input, t_point *coord, int *i, int *index)
 		sign = -1;
 	}
 	while (ft_isdigit(input[*i]))
-		coord[*index].z = coord[*index].z * 10 + (input[(*i)++] - '0');
-	coord[*index].z *= sign;
+		env->coord[*index].z = env->coord[*index].z * 10 + (input[(*i)++] - '0');
+	env->coord[*index].z *= sign;
 	if (input[*i] == ',')
 	{
 		*i += 3;
 		index_hex = 0;
 		while (ft_isxdigit(input[*i]))
-			coord[*index].color.rgb_hex[index_hex++] = input[(*i)++];
-		coord[*index].color.rgb_int =
-		ft_hex_to_dec(coord[*index].color.rgb_hex);
-		coord[*index].color.pick_up = 1;
+			env->coord[*index].color.rgb_hex[index_hex++] = input[(*i)++];
+		env->coord[*index].color.rgb_int =
+		ft_hex_to_dec(env->coord[*index].color.rgb_hex);
+		env->coord[*index].color.pick_up = 1;
 	}
 }
 
-static void	ft_init_t_point(t_point *coord, int *index)
+static void	ft_init_t_point(t_env *env, int *index)
 {
-	coord[*index].x = 0;
-	coord[*index].y = 0;
-	coord[*index].z = 0;
-	coord[*index].color.rgb_int = 0;
-	ft_bzero(coord[*index].color.rgb_hex, 10);
-	coord[*index].color.pick_up = 0;
+	env->coord[*index].x = 0;
+	env->coord[*index].y = 0;
+	env->coord[*index].z = 0;
+	env->coord[*index].color.rgb_int = 0;
+	ft_bzero(env->coord[*index].color.rgb_hex, 10);
+	env->coord[*index].color.pick_up = 0;
 }
 
 static void	ft_change_line(char *input, int *i, int *y, int *x)
@@ -58,7 +58,7 @@ static void	ft_change_line(char *input, int *i, int *y, int *x)
 	}
 }
 
-int			ft_coord_in_struct(char *input, t_point *coord, int len)
+int			ft_coord_in_struct(char *input, t_env *env, int len)
 {
 	int i;
 	int x;
@@ -71,14 +71,15 @@ int			ft_coord_in_struct(char *input, t_point *coord, int len)
 	index = 0;
 	while (input[i] && index < len)
 	{
-		ft_init_t_point(coord, &index);
+		ft_init_t_point(env, &index);
 		if (ft_isdigit(input[i]) || input[i] == '-')
 		{
-			coord[index].x = x;
-			coord[index].y = y;
-			ft_get_digit(input, coord, &i, &index);
-			ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index,
-			coord[index].x, coord[index].y, coord[index].z, coord[index].color.rgb_hex, coord[index].color.rgb_int, coord[index].color.pick_up);
+			env->coord[index].x = x;
+			env->coord[index].y = y;
+			ft_get_digit(input, env, &i, &index);
+			/*ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index,
+			env->coord[index].x, env->coord[index].y, env->coord[index].z, env->coord[index].color.rgb_hex,
+			env->coord[index].color.rgb_int, env->coord[index].color.pick_up);*/
 			x++;
 			index++;
 		}
