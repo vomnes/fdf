@@ -12,83 +12,38 @@
 
 # include "fdf.h"
 
-static int ft_check_min_x(t_env *env)
+static void ft_get_max_min_xyz(t_env *env)
 {
     int i;
-    int min;
-    int tmp_min;
+    int tmp_x;
+    int tmp_y;
+    int tmp_z;
 
-    i = 0;
-    min = 0;
-    tmp_min = 0;
-    while (i < env->data.map_total_size)
+    i = -1;
+    tmp_x = 0;
+    tmp_y = 0;
+    tmp_z = 0;
+    while (++i < env->data.map_total_size)
     {
-        tmp_min = sqrt(2) / 2 * (env->coord[i].x - env->coord[i].y) *
+        tmp_x = sqrt(2) / 2 * (env->coord[i].x - env->coord[i].y) *
         env->data.zoom;
-        min = tmp_min < min ? tmp_min : min;
-        i++;
-    }
-    min = (min < 0 ? -min : min);
-    return (min);
-}
-
-static int ft_check_max_x(t_env *env)
-{
-    int i;
-    int max;
-    int tmp_max;
-
-    i = 0;
-    max = 0;
-    tmp_max = 0;
-    while (i < env->data.map_total_size)
-    {
-        tmp_max = sqrt(2) / 2 * (env->coord[i].x - env->coord[i].y) *
-        env->data.zoom;
-        max = tmp_max > max ? tmp_max : max;
-        i++;
-    }
-    return (max);
-}
-
-static int ft_check_min_y(t_env *env)
-{
-    int i;
-    int min;
-    int tmp_min;
-
-    i = 0;
-    min = 0;
-    tmp_min = 0;
-    while (i < env->data.map_total_size)
-    {
-        tmp_min = -0.81649658092 * env->coord[i].z * env->data.deep +
+        env->data.x_max = tmp_x > env->data.x_max ? tmp_x : env->data.x_max;
+        env->data.x_min = tmp_x < env->data.x_min ? tmp_x : env->data.x_min;
+        tmp_y = -0.81649658092 * env->coord[i].z * env->data.deep +
         (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * env->data.zoom;
-        min = tmp_min < min ? tmp_min : min;
-        i++;
+        env->data.y_max = tmp_y > env->data.y_max ? tmp_y : env->data.y_max;
+        env->data.y_min = tmp_y < env->data.y_min ? tmp_y : env->data.y_min;
+        tmp_z = env->coord[i].z;
+        env->data.z_max = tmp_z > env->data.z_max ? tmp_z : env->data.z_max;
+        env->data.z_min = tmp_z < env->data.z_min ? tmp_z : env->data.z_min;
     }
-    min = (min < 0 ? -min : min);
-    return (min);
+    env->data.y_min = (env->data.y_min < 0 ? -env->data.y_min : env->data.y_min);
+    env->data.x_min = (env->data.x_min < 0 ? -env->data.x_min : env->data.x_min);
 }
 
-static int ft_check_max_y(t_env *env)
-{
-    int i;
-    int max;
-    int tmp_max;
-
-    i = 0;
-    max = 0;
-    tmp_max = 0;
-    while (i < env->data.map_total_size)
-    {
-        tmp_max = -0.81649658092 * env->coord[i].z * env->data.deep +
-        (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * env->data.zoom;
-        max = tmp_max > max ? tmp_max : max;
-        i++;
-    }
-    return (max);
-}
+//ft_printf(">data.x_max : %d - data.x_min : %d\n", env->data.x_max, env->data.x_min);
+//ft_printf(">data.y_max : %d - data.y_min : %d\n", env->data.y_max, env->data.y_min);
+//ft_printf(">data.z_max : %d - data.z_min : %d\n", env->data.z_max, env->data.z_min);
 
 void ft_get_zoom(t_env *env)
 {
@@ -124,18 +79,28 @@ static void	ft_init_data(t_env *env, int fd, char *input)
     env->data.map_length = ft_max_length(input);
     env->data.map_width = ft_width(input);
     env->data.map_total_size = env->data.map_length * env->data.map_width;
-    env->data.deep = 1.5;
+    if (env->data.map_total_size <= 300000)
+        env->data.deep = 1.5;
+    else
+        env->data.deep = 0.1;
+    env->data.x_max = 0;
+    env->data.x_min = 0;
+    env->data.y_max = 0;
+    env->data.y_min = 0;
+    env->data.z_max = 0;
+    env->data.z_min = 0;
 }
 
 static void	ft_set_up_data(t_env *env)
 {
     ft_get_zoom(env);
-    env->data.pos_x = ft_check_min_x(env) + 50;
-    env->data.pos_y = ft_check_min_y(env) + 50;
+    ft_get_max_min_xyz(env);
+    env->data.pos_x = env->data.x_min + 50;
+    env->data.pos_y = env->data.y_min + 50;
     env->data.pos_x_start = env->data.pos_x;
     env->data.pos_y_start = env->data.pos_y;
-    env->data.win_width = ft_check_max_x(env) + env->data.pos_x + 50;
-    env->data.win_height = ft_check_max_y(env) + env->data.pos_y + 50;
+    env->data.win_width = env->data.x_max + env->data.pos_x + 50;
+    env->data.win_height = env->data.y_max + env->data.pos_y + 50;
     env->data.win_width =
     (env->data.win_width > 2250) ? 2250 : env->data.win_width;
     env->data.win_height =
@@ -164,7 +129,7 @@ int main(int args, char **argv)
         return (-1);
     ft_coord_in_struct(input, &env, env.data.map_total_size);
     ft_set_up_data(&env);
-    ft_build_3d(&env);
+    ft_build_iso(&env);
     ft_printf("map_length >> %d\n", env.data.map_length);
     ft_printf("map_width >> %d\n", env.data.map_width);
     ft_printf("map_total_size >> %d\n", env.data.map_total_size);
