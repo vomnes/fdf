@@ -21,18 +21,17 @@
 # include <mlx.h>
 # include <math.h>
 
-# define KEY_ESCAPE 53
 # define KEY_Q 12
-
+# define KEY_P 35
+# define KEY_L 37
+# define KEY_SPACE 49
+# define KEY_ESCAPE 53
+# define KEY_PLUS 69
+# define KEY_LESS 78
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
 # define ARROW_DOWN 125
 # define ARROW_UP 126
-
-# define KEY_P 35
-# define KEY_L 37
-# define KEY_PLUS 69
-# define KEY_LESS 78
 
 typedef	struct		s_print
 {
@@ -69,8 +68,11 @@ typedef	struct		s_data
     int             map_width;
     int             map_total_size;
     int             pos_x;
+    int             pos_x_start;
     int             pos_y;
+    int             pos_y_start;
     float           zoom;
+    float           zoom_start;
     float           deep;
 }                   t_data;
 

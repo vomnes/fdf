@@ -23,7 +23,8 @@ static int ft_check_min_x(t_env *env)
     tmp_min = 0;
     while (i < env->data.map_total_size)
     {
-        tmp_min = sqrt(2) / 2 * (env->coord[i].x - env->coord[i].y) * env->data.zoom;
+        tmp_min = sqrt(2) / 2 * (env->coord[i].x - env->coord[i].y) *
+        env->data.zoom;
         min = tmp_min < min ? tmp_min : min;
         i++;
     }
@@ -42,7 +43,8 @@ static int ft_check_max_x(t_env *env)
     tmp_max = 0;
     while (i < env->data.map_total_size)
     {
-        tmp_max = sqrt(2) / 2 * (env->coord[i].x - env->coord[i].y) * env->data.zoom;
+        tmp_max = sqrt(2) / 2 * (env->coord[i].x - env->coord[i].y) *
+        env->data.zoom;
         max = tmp_max > max ? tmp_max : max;
         i++;
     }
@@ -60,7 +62,8 @@ static int ft_check_min_y(t_env *env)
     tmp_min = 0;
     while (i < env->data.map_total_size)
     {
-        tmp_min = -0.81649658092 * env->coord[i].z * env->data.deep + (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * env->data.zoom;
+        tmp_min = -0.81649658092 * env->coord[i].z * env->data.deep +
+        (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * env->data.zoom;
         min = tmp_min < min ? tmp_min : min;
         i++;
     }
@@ -79,7 +82,8 @@ static int ft_check_max_y(t_env *env)
     tmp_max = 0;
     while (i < env->data.map_total_size)
     {
-        tmp_max = -0.81649658092 * env->coord[i].z * env->data.deep + (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * env->data.zoom;
+        tmp_max = -0.81649658092 * env->coord[i].z * env->data.deep +
+        (1 / sqrt(6) * (env->coord[i].x + env->coord[i].y)) * env->data.zoom;
         max = tmp_max > max ? tmp_max : max;
         i++;
     }
@@ -112,6 +116,7 @@ void ft_get_zoom(t_env *env)
         env->data.zoom = 1;
     else
         env->data.zoom = 0.5;
+    env->data.zoom_start = env->data.zoom;
 }
 
 static void	ft_init_data(t_env *env, int fd, char *input)
@@ -119,8 +124,25 @@ static void	ft_init_data(t_env *env, int fd, char *input)
     env->data.map_length = ft_max_length(input);
     env->data.map_width = ft_width(input);
     env->data.map_total_size = env->data.map_length * env->data.map_width;
-    env->data.zoom = 5;
     env->data.deep = 1.5;
+}
+
+static void	ft_set_up_data(t_env *env)
+{
+    ft_get_zoom(env);
+    env->data.pos_x = ft_check_min_x(env) + 50;
+    env->data.pos_y = ft_check_min_y(env) + 50;
+    env->data.pos_x_start = env->data.pos_x;
+    env->data.pos_y_start = env->data.pos_y;
+    env->data.win_width = ft_check_max_x(env) + env->data.pos_x + 50;
+    env->data.win_height = ft_check_max_y(env) + env->data.pos_y + 50;
+    env->data.win_width =
+    (env->data.win_width > 2250) ? 2250 : env->data.win_width;
+    env->data.win_height =
+    (env->data.win_height > 1250) ? 1250 : env->data.win_height;
+    env->data.mlx = mlx_init();
+    env->data.win = mlx_new_window(env->data.mlx, env->data.win_width,
+    env->data.win_height, "fdf");
 }
 
 int main(int args, char **argv)
@@ -141,23 +163,12 @@ int main(int args, char **argv)
     if (!(env.coord = (t_point*)malloc(sizeof(t_point) * env.data.map_total_size)))
         return (-1);
     ft_coord_in_struct(input, &env, env.data.map_total_size);
-    ft_get_zoom(&env);
-    env.data.pos_x = ft_check_min_x(&env) + 50;
-    env.data.pos_y = ft_check_min_y(&env) + 50;
-    env.data.win_width = ft_check_max_x(&env) + env.data.pos_x + 50;
-    env.data.win_height = ft_check_max_y(&env) + env.data.pos_y + 50;
-    env.data.win_width = (env.data.win_width > 2250) ? 2250 : env.data.win_width;
-    env.data.win_height = (env.data.win_height > 1250) ? 1250 : env.data.win_height;
-    env.data.mlx = mlx_init();
-    env.data.win = mlx_new_window(env.data.mlx, env.data.win_width,
-    env.data.win_height, "fdf");
+    ft_set_up_data(&env);
     ft_build_3d(&env);
     ft_printf("map_length >> %d\n", env.data.map_length);
     ft_printf("map_width >> %d\n", env.data.map_width);
     ft_printf("map_total_size >> %d\n", env.data.map_total_size);
-
     mlx_key_hook(env.data.win, ft_key_interact, &env);
-
     mlx_loop(env.data.mlx);
 }
 

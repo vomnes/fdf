@@ -90,6 +90,7 @@ int			ft_coord_in_struct(char *input, t_env *env, int len)
 }
 
 /*
-//            ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d\n", index,
-//            coord[index].x, coord[index].y, coord[index].z, coord[index].color.rgb_hex, coord[index].color.rgb_int);
+ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index,
+env->coord[index].x, env->coord[index].y, env->coord[index].z, env->coord[index].color.rgb_hex,
+env->coord[index].color.rgb_int, env->coord[index].color.pick_up);
 */

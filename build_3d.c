@@ -52,6 +52,19 @@ void ft_rotation_y(t_point *coord, int angle, t_data *data)
     }
 }
 */
+
+void ft_manage_colors(t_env *env, int *i, int plus)
+{
+    if (env->coord[*i].color.pick_up == 1 && env->coord[*i + plus].color.pick_up == 1)
+        env->print.color = env->coord[*i].color.rgb_int;
+    else if (env->coord[*i].z == 0)
+        env->print.color = 0x0080ccff;
+    else if (env->coord[*i].z > 0 || env->coord[*i + plus].z > 0)
+        env->print.color = 0x00b33c;
+    else
+        env->print.color = 0x00994d00;
+}
+
 int ft_build_3d(t_env *env)
 {
     int i;
@@ -85,31 +98,16 @@ int ft_build_3d(t_env *env)
         x_c = sqrt(2)/2 * (env->coord[i + length].x - env->coord[i + length].y) * zoom;
         y_c = var1 * env->coord[i + length].z * zoom_one + (1 / sqrt(6) * (env->coord[i + length].x + env->coord[i + length].y)) * zoom;
 
-        //ft_printf("pick_up >> %d, rgb_hex >> %s\n", coord[i].color.pick_up, coord[i].color.rgb_hex);
-        if (env->coord[i].color.pick_up == 1 && env->coord[i + 1].color.pick_up == 1)
-            env->print.color = env->coord[i].color.rgb_int;
-        else if (env->coord[i].z == 0)
-            env->print.color = 0x0080ccff;
-        else if (env->coord[i].z > 0 || env->coord[i + 1].z > 0)
-            env->print.color = 0x00b33c;
-        else
-            env->print.color = 0x00994d00;
+        ft_manage_colors(env, &i, 1);
         env->print.x0 = x_a + plus_x;
         env->print.y0 = y_a + plus_y;
         env->print.x1 = x_b + plus_x;
         env->print.y1 = y_b + plus_y;
         if (env->coord[i].x < env->data.map_length - 1)
             ft_draw_line(env);
-        if (env->coord[i].color.pick_up == 1 && env->coord[i + length].color.pick_up == 1)
-            env->print.color = env->coord[i].color.rgb_int;
-        else if (env->coord[i].z == 0)
-            env->print.color = 0x0080ccff;
-        else if (env->coord[i].z > 0 || env->coord[i + length].z > 0)
-            env->print.color = 0x00b33c;
-        else
-            env->print.color = 0x00000000;
         env->print.x1 = x_c + plus_x;
         env->print.y1 = y_c + plus_y;
+        ft_manage_colors(env, &i, length);
         if (env->coord[i].y < env->data.map_width - 1)
             ft_draw_line(env);
         i++;
