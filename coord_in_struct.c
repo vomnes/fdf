@@ -27,10 +27,11 @@ static void	ft_get_digit(char *input, t_env *env, int *i, int *index)
 	while (ft_isdigit(input[*i]))
 		env->coord[*index].z = env->coord[*index].z * 10 + (input[(*i)++] - '0');
 	env->coord[*index].z *= sign;
+	if (env->coord[*index].z >= 100000 || env->coord[*index].z <= -100000)
+		env->coord[*index].z = 0;
 	if (input[*i] == ',')
 	{
 		*i += 3;
-		index_hex = 0;
 		while (ft_isxdigit(input[*i]))
 			env->coord[*index].color.rgb_hex[index_hex++] = input[(*i)++];
 		env->coord[*index].color.rgb_int =
@@ -84,9 +85,9 @@ int			ft_coord_in_struct(char *input, t_env *env)
 			env->coord[index.index].x = index.x;
 			env->coord[index.index].y = index.y;
 			ft_get_digit(input, env, &(index.i), &(index.index));
-			//ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index,
-			//env->coord[index].x, env->coord[index].y, env->coord[index].z, env->coord[index].color.rgb_hex,
-			//env->coord[index].color.rgb_int, env->coord[index].color.pick_up);
+		//	ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index.index,
+		//	env->coord[index.index].x, env->coord[index.index].y, env->coord[index.index].z, env->coord[index.index].color.rgb_hex,
+		//	env->coord[index.index].color.rgb_int, env->coord[index.index].color.pick_up);
 			(index.x)++;
 			(index.index)++;
 		}
