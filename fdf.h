@@ -24,6 +24,13 @@
 # define KEY_Q 12
 # define KEY_P 35
 # define KEY_L 37
+
+# define KEY_W 13
+# define KEY_M 46
+# define KEY_G 5
+# define KEY_F 3
+# define KEY_O 31
+
 # define KEY_SPACE 49
 # define KEY_ESCAPE 53
 # define KEY_PLUS 69
@@ -32,6 +39,20 @@
 # define ARROW_RIGHT 124
 # define ARROW_DOWN 125
 # define ARROW_UP 126
+
+# define COLOR_GOLD 0x00ffcc00
+# define COLOR_BLACK 0x00000000
+# define COLOR_WHITE 0x00ffffff;
+# define COLOR_BLACK_BROWN 0x002F1D13;
+# define COLOR_LIGHT_BROWN 0x00A05A00;
+# define COLOR_GREEN_YELLOW 0x00B59F25;
+# define COLOR_YELLOW 0x00E6E632;
+# define COLOR_BROWN 0x007d4c00;
+# define COLOR_GREEN 0x0016ac07;
+# define COLOR_DARK_GREEN 0x00078734;
+# define COLOR_BLUE 0x000c6cd1;
+# define COLOR_BLUE_BBR 0x000023864;
+# define COLOR_RED_BBR 0x000D50020;
 
 typedef	struct		s_print
 {
@@ -74,15 +95,56 @@ typedef	struct		s_data
     float           zoom;
     float           zoom_start;
     float           deep;
+    int             x_max;
+    int             x_min;
+    int             y_max;
+    int             y_min;
+    int             z_max;
+    int             z_min;
 }                   t_data;
+
+typedef enum		e_type_color
+{
+    white,
+	map,
+    gold,
+    bbr,
+    original
+}					t_type;
+
+typedef	struct		s_listcolor
+{
+        int         ten;
+        int         nine;
+        int         eight;
+        int         seven;
+        int         six;
+        int         five;
+        int         four;
+        int         three;
+        int         two;
+        int         one;
+        int         zero;
+        t_type      scale;
+}                   t_listcolor;
 
 typedef	struct		s_env
 {
     t_point         *coord;
     t_print         print;
     t_data          data;
+    t_listcolor     color;
 }                   t_env;
 
+typedef	struct		s_edit
+{
+    float           x_a;
+    float           y_a;
+    float           x_b;
+    float           y_b;
+    float           x_c;
+    float           y_c;
+}                   t_edit;
 
 
 char        *ft_get_input(int fd);
@@ -92,9 +154,18 @@ int         ft_coord_in_struct(char *input, t_env *env, int len);
 int			ft_max_length(char *input);
 int			ft_width(char *input);
 
-int ft_build_3d(t_env *env);
+int ft_build_iso(t_env *env);
 
 int         ft_draw_line(t_env *env);
+
+void ft_color_type_map(t_env *env);
+void ft_color_type_white(t_env *env);
+void ft_color_type_gold(t_env *env);
+void ft_color_type_original(t_env *env);
+void ft_color_type_bbr(t_env *env);
+
+void ft_manage_colors(t_env *env, int *i, int plus);
+int ft_interaction_color(int keycode, t_env *env);
 
 int ft_key_interact(int keycode, t_env *env);
 

@@ -108,6 +108,8 @@ static void	ft_set_up_data(t_env *env)
     env->data.mlx = mlx_init();
     env->data.win = mlx_new_window(env->data.mlx, env->data.win_width,
     env->data.win_height, "fdf");
+    env->color.scale = white;
+//    ft_printf(">data.z_max : %d - data.z_min : %d\n", env->data.z_max, env->data.z_min);
 }
 
 int main(int args, char **argv)
@@ -130,12 +132,13 @@ int main(int args, char **argv)
     ft_coord_in_struct(input, &env, env.data.map_total_size);
     ft_set_up_data(&env);
     ft_build_iso(&env);
-    ft_printf("map_length >> %d\n", env.data.map_length);
-    ft_printf("map_width >> %d\n", env.data.map_width);
-    ft_printf("map_total_size >> %d\n", env.data.map_total_size);
     mlx_key_hook(env.data.win, ft_key_interact, &env);
     mlx_loop(env.data.mlx);
 }
+
+//ft_printf("map_length >> %d\n", env.data.map_length);
+//ft_printf("map_width >> %d\n", env.data.map_width);
+//ft_printf("map_total_size >> %d\n", env.data.map_total_size);
 
 //    ft_draw_line(10, 5, i, 0, mlx, win);
 //    mlx_key_hook(win, ft_print_key_num, 0);
