@@ -162,7 +162,7 @@ int         ft_coord_in_struct(char *input, t_env *env);
 int			ft_max_length(char *input);
 int			ft_width(char *input);
 
-int         ft_build_iso(t_env *env);
+void        ft_build_iso(t_env *env);
 
 int         ft_draw_line(t_env *env);
 
@@ -171,7 +171,6 @@ void ft_color_type_white(t_env *env);
 void ft_color_type_gold(t_env *env);
 void ft_color_type_original(t_env *env);
 void ft_color_type_bbr(t_env *env);
-
 void ft_manage_colors(t_env *env, int *i, int plus);
 int ft_interaction_color(int keycode, t_env *env);
 
