@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   select_color.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vomnes <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/31 11:38:56 by vomnes            #+#    #+#             */
+/*   Updated: 2017/01/31 11:38:57 by vomnes           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "fdf.h"
 
 void ft_color_type_map(t_env *env)
 {
     if (env->color.scale == map)
     {
-        env->color.ten = COLOR_BLACK;
-        env->color.nine = COLOR_BLACK_BROWN;
+        env->color.ten = COLOR_WHITE;
+        env->color.nine = COLOR_WHITE;
         env->color.eight = COLOR_LIGHT_BROWN;
         env->color.seven = COLOR_LIGHT_BROWN;
         env->color.six = COLOR_LIGHT_BROWN;

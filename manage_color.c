@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_color.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vomnes <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/31 11:38:47 by vomnes            #+#    #+#             */
+/*   Updated: 2017/01/31 11:38:48 by vomnes           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "fdf.h"
 
-static void ft_select_range(t_env *env, float *scale_i, int *scale_plus)
+static void ft_select_range(t_env *env, int *scale_i, int *scale_plus)
 {
     if (*scale_i == 10 || *scale_plus == 10)
         env->print.color = env->color.ten;
@@ -24,11 +36,13 @@ static void ft_select_range(t_env *env, float *scale_i, int *scale_plus)
         env->print.color = env->color.two;
     else if (*scale_i > 0.5 || *scale_plus > 0.5)
         env->print.color = env->color.one;
+    else if (*scale_i == 0 || *scale_plus == 0)
+        env->print.color = env->color.one;
 }
 
 void ft_manage_colors(t_env *env, int *i, int plus)
 {
-    float scale_i;
+    int scale_i;
     int scale_plus;
 
 //    ft_printf("env->data.z_max : %d - env->data.z_min : %d\n", env->data.z_max, env->data.z_min);
@@ -42,9 +56,8 @@ void ft_manage_colors(t_env *env, int *i, int plus)
     ft_select_range(env, &scale_i, &scale_plus);
     if (env->coord[*i].z == 0 && env->coord[*i + plus].z == 0)
         env->print.color = env->color.zero;
-    if (env->coord[*i].z < 0 || env->coord[*i + 1].z < 0)
-        env->print.color = COLOR_BLACK;
-    if (env->color.scale == original && env->coord[*i].color.pick_up == 1 && env->coord[*i + plus].color.pick_up == 1)
+    if (env->color.scale == original && env->coord[*i].color.pick_up == 1 &&
+    env->coord[*i + plus].color.pick_up == 1)
         env->print.color = env->coord[*i].color.rgb_int;
 }
 
