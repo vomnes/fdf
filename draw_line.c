@@ -82,30 +82,3 @@ int ft_draw_line(t_env *env)
     }
     return (0);
 }
-
-/*
-i = 0;
-while (i < 600)
-{
-    ft_draw_line(300, 300, i, 0, mlx, win);
-    i += 1;
-}
-i = 0;
-while (i < 600)
-{
-    ft_draw_line(300, 300, 600, i, mlx, win);
-    i += 1;
-}
-i = 600;
-while (i > 0)
-{
-    ft_draw_line(300, 300, i, 600, mlx, win);
-    i -= 1;
-}
-i = 600;
-while (i > 0)
-{
-    ft_draw_line(300, 300, 0, i, mlx, win);
-    i -= 1;
-}
-*/

@@ -12,18 +12,18 @@
 
 #include "fdf.h"
 
-void ft_print_key_num(int keycode)
+static void ft_print_key_num(int keycode)
 {
     ft_printf("Key event --> %d\n", keycode);
 }
 
-void ft_push_exit(int keycode)
+static void ft_push_exit(int keycode)
 {
     if (keycode == KEY_ESCAPE || keycode == KEY_Q)
         exit(1);
 }
 
-int ft_move_xy(int keycode, t_env *env)
+static int ft_move_xy(int keycode, t_env *env)
 {
     if (keycode == ARROW_LEFT || keycode == ARROW_RIGHT || keycode == ARROW_DOWN
     || keycode == ARROW_UP || keycode == KEY_SPACE)
@@ -48,7 +48,7 @@ int ft_move_xy(int keycode, t_env *env)
     return (0);
 }
 
-int ft_move_zoom_deep(int keycode, t_env *env)
+static int ft_move_zoom_deep(int keycode, t_env *env)
 {
     float change;
 

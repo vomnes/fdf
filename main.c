@@ -45,7 +45,7 @@ static void ft_get_max_min_xyz(t_env *env)
 //ft_printf(">data.y_max : %d - data.y_min : %d\n", env->data.y_max, env->data.y_min);
 //ft_printf(">data.z_max : %d - data.z_min : %d\n", env->data.z_max, env->data.z_min);
 
-void ft_get_zoom(t_env *env)
+static void ft_get_zoom(t_env *env)
 {
     if (env->data.map_total_size <= 250)
         env->data.zoom = 60;
@@ -129,7 +129,7 @@ int main(int args, char **argv)
     ft_init_data(&env, fd, input);
     if (!(env.coord = (t_point*)malloc(sizeof(t_point) * env.data.map_total_size)))
         return (-1);
-    ft_coord_in_struct(input, &env, env.data.map_total_size);
+    ft_coord_in_struct(input, &env);
     ft_set_up_data(&env);
     ft_build_iso(&env);
     mlx_key_hook(env.data.win, ft_key_interact, &env);

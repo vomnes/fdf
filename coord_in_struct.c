@@ -58,10 +58,10 @@ static void	ft_change_line(t_env *env, char *input, t_index *index)
 		{
 			env->coord[index->index].x = index->x;
 			env->coord[index->index].y = index->y;
-			(index->index)++;
-			(index->x)++;
+			index->index++;
+			index->x++;
 		}
-		(index->y)++;
+		index->y++;
 		index->x = 0;
 	}
 }
@@ -88,11 +88,11 @@ int			ft_coord_in_struct(char *input, t_env *env)
 		//	ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index.index,
 		//	env->coord[index.index].x, env->coord[index.index].y, env->coord[index.index].z, env->coord[index.index].color.rgb_hex,
 		//	env->coord[index.index].color.rgb_int, env->coord[index.index].color.pick_up);
-			(index.x)++;
-			(index.index)++;
+			index.x++;
+			index.index++;
 		}
 		ft_change_line(env, input, &index);
-		(index.i)++;
+		index.i++;
 	}
 	return (0);
 }
