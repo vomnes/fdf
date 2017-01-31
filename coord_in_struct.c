@@ -39,52 +39,59 @@ static void	ft_get_digit(char *input, t_env *env, int *i, int *index)
 	}
 }
 
-static void	ft_init_t_point(t_env *env, int *index)
+static void	ft_init_t_point(t_env *env, t_index *index)
 {
-	env->coord[*index].x = 0;
-	env->coord[*index].y = 0;
-	env->coord[*index].z = 0;
-	env->coord[*index].color.rgb_int = 0;
-	ft_bzero(env->coord[*index].color.rgb_hex, 10);
-	env->coord[*index].color.pick_up = 0;
+	env->coord[index->index].x = 0;
+	env->coord[index->index].y = 0;
+	env->coord[index->index].z = 0;
+	env->coord[index->index].color.rgb_int = 0;
+	ft_bzero(env->coord[index->index].color.rgb_hex, 10);
+	env->coord[index->index].color.pick_up = 0;
 }
 
-static void	ft_change_line(char *input, int *i, int *y, int *x)
+static void	ft_change_line(t_env *env, char *input, t_index *index)
 {
-	if (input[*i] == '\n')
+	if (input[index->i] == '\n')
 	{
-		(*y)++;
-		*x = 0;
+		while (index->x < env->data.map_length)
+		{
+			env->coord[index->index].x = index->x;
+			env->coord[index->index].y = index->y;
+			(index->index)++;
+			(index->x)++;
+		}
+		(index->y)++;
+		index->x = 0;
 	}
 }
 
-int			ft_coord_in_struct(char *input, t_env *env, int len)
+int			ft_coord_in_struct(char *input, t_env *env)
 {
-	int i;
-	int x;
-	int y;
-	int index;
+	t_index index;
 
-	i = 0;
-	x = 0;
-	y = 0;
-	index = 0;
-	while (input[i] && index < len)
+	index.i = 0;
+	index.x = 0;
+	index.y = 0;
+	index.index = 0;
+	//ft_printf("env->.data.map_width = %d\n", env->data.map_width);
+	//ft_printf("env->data.map_length = %d\n", env->data.map_length);
+	//ft_printf("env->data.map_total_size = %d\n", env->data.map_total_size);
+	while (input[index.i] && index.index < env->data.map_total_size)
 	{
 		ft_init_t_point(env, &index);
-		if (ft_isdigit(input[i]) || input[i] == '-')
+		if (ft_isdigit(input[index.i]) || input[index.i] == '-')
 		{
-			env->coord[index].x = x;
-			env->coord[index].y = y;
-			ft_get_digit(input, env, &i, &index);
-			/*ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index,
-			env->coord[index].x, env->coord[index].y, env->coord[index].z, env->coord[index].color.rgb_hex,
-			env->coord[index].color.rgb_int, env->coord[index].color.pick_up);*/
-			x++;
-			index++;
+			env->coord[index.index].x = index.x;
+			env->coord[index.index].y = index.y;
+			ft_get_digit(input, env, &(index.i), &(index.index));
+			//ft_printf("index : %3d >> x : %2d, y : %2d, z : %2d color_hex : %6s color_int : %10d color_pick_up : %1d \n", index,
+			//env->coord[index].x, env->coord[index].y, env->coord[index].z, env->coord[index].color.rgb_hex,
+			//env->coord[index].color.rgb_int, env->coord[index].color.pick_up);
+			(index.x)++;
+			(index.index)++;
 		}
-		ft_change_line(input, &i, &y, &x);
-		i++;
+		ft_change_line(env, input, &index);
+		(index.i)++;
 	}
 	return (0);
 }

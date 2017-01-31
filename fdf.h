@@ -146,15 +146,23 @@ typedef	struct		s_edit
     float           y_c;
 }                   t_edit;
 
+typedef	struct		s_index
+{
+    int             i;
+	int             x;
+	int             y;
+	int             index;
+}                   t_index;
+
 
 char        *ft_get_input(int fd);
 
-int         ft_coord_in_struct(char *input, t_env *env, int len);
+int         ft_coord_in_struct(char *input, t_env *env);
 
 int			ft_max_length(char *input);
 int			ft_width(char *input);
 
-int ft_build_iso(t_env *env);
+int         ft_build_iso(t_env *env);
 
 int         ft_draw_line(t_env *env);
 
