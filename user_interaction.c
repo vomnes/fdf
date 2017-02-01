@@ -12,11 +12,6 @@
 
 #include "fdf.h"
 
-static void		ft_print_key_num(int keycode)
-{
-	ft_printf("Key event --> %d\n", keycode);
-}
-
 static void		ft_push_exit(int keycode)
 {
 	if (keycode == KEY_ESCAPE || keycode == KEY_Q)
@@ -82,7 +77,6 @@ static int		ft_move_zoom_elevation(int keycode, t_env *env)
 
 int				ft_key_interact(int keycode, t_env *env)
 {
-	ft_print_key_num(keycode);
 	ft_push_exit(keycode);
 	if (ft_move_xy(keycode, env) == 1)
 		ft_build_iso(env);
