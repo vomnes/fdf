@@ -38,8 +38,6 @@ static void		ft_select_range(t_env *env, int *scale_i, int *scale_plus)
 		env->print.color = env->color.one;
 	else if (*scale_i == 0 || *scale_plus == 0)
 		env->print.color = env->color.one;
-	else
-		env->print.color = env->color.zero;
 }
 
 void			ft_manage_colors(t_env *env, int *i, int plus)
@@ -53,7 +51,11 @@ void			ft_manage_colors(t_env *env, int *i, int plus)
 	ft_color_type_white(env);
 	ft_color_type_gold_original(env);
 	ft_color_type_blue_red_white(env);
+	if (scale_i < 0 || scale_plus < 0)
+		env->print.color = env->color.zero;
 	ft_select_range(env, &scale_i, &scale_plus);
+	if (env->coord[*i].z == 0 && env->coord[*i + plus].z == 0)
+		env->print.color = env->color.zero;
 	if (env->color.scale == original && env->coord[*i].color.pick_up == 1 &&
 	env->coord[*i + plus].color.pick_up == 1)
 		env->print.color = env->coord[*i].color.rgb_int;

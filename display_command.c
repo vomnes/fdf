@@ -43,11 +43,7 @@ void		ft_display_command(t_env *env)
 
 	m = 10;
 	if (env->data.win_width < 440)
-	{
-		ft_display_string(env, m, 2, "  Press ");
-		ft_display_string(env, m, 22, "ESC or Q");
-		ft_display_string(env, m, 42, "for exit");
-	}
+		ft_display_string(env, m, 2, "Exit: Q");
 	else
 	{
 		if (env->data.help == 0)
