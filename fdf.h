@@ -6,7 +6,7 @@
 /*   By: vomnes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 08:34:42 by vomnes            #+#    #+#             */
-/*   Updated: 2017/01/25 08:34:45 by vomnes           ###   ########.fr       */
+/*   Updated: 2017/02/01 10:05:57 by vomnes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,126 +54,126 @@
 # define COLOR_BLUE_BBR 0x000023864;
 # define COLOR_RED_BBR 0x000D50020;
 
-typedef	struct		s_print
-{
-    int              x0;
-    int              y0;
-    int              x1;
-    int              y1;
-    int              color;
-}                   t_print;
-
 typedef	struct		s_color
 {
-    char            rgb_hex[10];
-    int             rgb_int;
-    int             pick_up;
-}                   t_color;
+	char			rgb_hex[10];
+	int				rgb_int;
+	int				pick_up;
+}					t_color;
 
 typedef	struct		s_point
 {
-    int             x;
-    int             y;
-    int             z;
-    t_color         color;
-}                   t_point;
+	int				x;
+	int				y;
+	int				z;
+	t_color			color;
+}					t_point;
 
 typedef	struct		s_data
 {
-    void            *mlx;
-    void            *win;
-    int             win_width;
-    int             win_height;
-    char            *input;
-    int             map_length;
-    int             map_width;
-    int             map_total_size;
-    int             pos_x;
-    int             pos_x_start;
-    int             pos_y;
-    int             pos_y_start;
-    float           zoom;
-    float           zoom_start;
-    float           deep;
-    int             x_max;
-    int             x_min;
-    int             y_max;
-    int             y_min;
-    int             z_max;
-    int             z_min;
-}                   t_data;
+	void			*mlx;
+	void			*win;
+	int				win_width;
+	int				win_height;
+	char			*input;
+	int				map_length;
+	int				map_width;
+	int				map_total_size;
+	int				pos_x;
+	int				pos_x_start;
+	int				pos_y;
+	int				pos_y_start;
+	float			zoom;
+	float			zoom_start;
+	float			deep;
+	int				x_max;
+	int				x_min;
+	int				y_max;
+	int				y_min;
+	int				z_max;
+	int				z_min;
+}					t_data;
+
+typedef	struct		s_print
+{
+	int				x0;
+	int				y0;
+	int				x1;
+	int				y1;
+	int				color;
+}					t_print;
 
 typedef enum		e_type_color
 {
-    white,
+	white,
 	map,
-    gold,
-    bbr,
-    original
-}					t_type;
+	gold,
+	bbr,
+	original
+}					t_type_color;
 
 typedef	struct		s_listcolor
 {
-        int         ten;
-        int         nine;
-        int         eight;
-        int         seven;
-        int         six;
-        int         five;
-        int         four;
-        int         three;
-        int         two;
-        int         one;
-        int         zero;
-        t_type      scale;
-}                   t_listcolor;
+	int				ten;
+	int				nine;
+	int				eight;
+	int				seven;
+	int				six;
+	int				five;
+	int				four;
+	int				three;
+	int				two;
+	int				one;
+	int				zero;
+	t_type_color	scale;
+}					t_listcolor;
 
 typedef	struct		s_env
 {
-    t_point         *coord;
-    t_print         print;
-    t_data          data;
-    t_listcolor     color;
-}                   t_env;
+	t_point			*coord;
+	t_data			data;
+	t_print			print;
+	t_listcolor		color;
+}					t_env;
 
 typedef	struct		s_edit
 {
-    float           x_a;
-    float           y_a;
-    float           x_b;
-    float           y_b;
-    float           x_c;
-    float           y_c;
-}                   t_edit;
+	float			x_a;
+	float			y_a;
+	float			x_b;
+	float			y_b;
+	float			x_c;
+	float			y_c;
+}					t_edit;
 
 typedef	struct		s_index
 {
-    int             i;
-	int             x;
-	int             y;
-	int             index;
-}                   t_index;
+	int				i;
+	int				x;
+	int				y;
+	int				index;
+}					t_index;
 
+char				*ft_get_input(int fd);
+void				ft_init_data(t_env *env, char *input);
+int					ft_max_length(char *input);
+int					ft_width(char *input);
+int					ft_coord_in_struct(char *input, t_env *env);
+void				ft_set_up_data(t_env *env);
+void				ft_get_max_min_xyz(t_env *env);
 
-char        *ft_get_input(int fd);
+void				ft_build_iso(t_env *env);
 
-int         ft_coord_in_struct(char *input, t_env *env);
+void				ft_color_type_map(t_env *env);
+void				ft_color_type_white(t_env *env);
+void				ft_color_type_gold(t_env *env);
+void				ft_color_type_original(t_env *env);
+void				ft_color_type_blue_red_white(t_env *env);
+void				ft_manage_colors(t_env *env, int *i, int plus);
 
-int			ft_max_length(char *input);
-int			ft_width(char *input);
+int					ft_draw_line(t_env *env);
 
-void        ft_build_iso(t_env *env);
-
-int         ft_draw_line(t_env *env);
-
-void ft_color_type_map(t_env *env);
-void ft_color_type_white(t_env *env);
-void ft_color_type_gold(t_env *env);
-void ft_color_type_original(t_env *env);
-void ft_color_type_bbr(t_env *env);
-void ft_manage_colors(t_env *env, int *i, int plus);
-int ft_interaction_color(int keycode, t_env *env);
-
-int ft_key_interact(int keycode, t_env *env);
+int					ft_interaction_color(int keycode, t_env *env);
+int					ft_key_interact(int keycode, t_env *env);
 
 #endif
