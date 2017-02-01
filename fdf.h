@@ -6,7 +6,7 @@
 /*   By: vomnes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 08:34:42 by vomnes            #+#    #+#             */
-/*   Updated: 2017/02/01 10:05:57 by vomnes           ###   ########.fr       */
+/*   Updated: 2017/02/01 14:07:06 by vomnes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ void				ft_manage_colors(t_env *env, int *i, int plus);
 
 int					ft_draw_line(t_env *env);
 
+void				ft_display_command(t_env *env);
 int					ft_interaction_color(int keycode, t_env *env);
 int					ft_key_interact(int keycode, t_env *env);
 
