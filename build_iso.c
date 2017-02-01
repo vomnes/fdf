@@ -12,34 +12,6 @@
 
 #include "fdf.h"
 
-void ft_print_help(t_env *env)
-{
-    int margin;
-
-    margin = 10;
-    if (env->data.help == 0)
-    {
-        mlx_string_put(env->data.mlx, env->data.win, margin, 0 + 2, COLOR_WHITE, "Press ESC or Q for exit");
-        mlx_string_put(env->data.mlx, env->data.win, margin, 20 + 2, COLOR_WHITE, "Press H for display help");
-    }
-    else
-    {
-        mlx_string_put(env->data.mlx, env->data.win, margin, 0 + 2, COLOR_WHITE, "Press ESC or Q for exit");
-        mlx_string_put(env->data.mlx, env->data.win, margin, 20 + 2, COLOR_WHITE, "Press H for display help");
-    	mlx_string_put(env->data.mlx, env->data.win, margin, 40 + 2, COLOR_WHITE, "  E   : Elevation");
-        mlx_string_put(env->data.mlx, env->data.win, margin, 60 + 2, COLOR_WHITE, "  D   : Deep");
-		mlx_string_put(env->data.mlx, env->data.win, margin, 80 + 2, COLOR_WHITE, "  .   : Cancel elevation");
-        mlx_string_put(env->data.mlx, env->data.win, margin, 100 + 2, COLOR_WHITE, " +/-  : Zoom ");
-        mlx_string_put(env->data.mlx, env->data.win, margin, 120 + 2, COLOR_WHITE, "Space : Back to start position and zoom");
-        mlx_string_put(env->data.mlx, env->data.win, margin, 140 + 2, COLOR_WHITE, "Arrows: Change position");
-        mlx_string_put(env->data.mlx, env->data.win, env->data.win_width - 180 - margin,  0 + 2, COLOR_WHITE, "Color White    : W");
-        mlx_string_put(env->data.mlx, env->data.win, env->data.win_width - 180 - margin,  20 + 2, COLOR_WHITE, "Color Original : O");
-        mlx_string_put(env->data.mlx, env->data.win, env->data.win_width - 180 - margin,  40 + 2, COLOR_WHITE, "Color Montain  : M");
-        mlx_string_put(env->data.mlx, env->data.win, env->data.win_width - 180 - margin,  60 + 2, COLOR_WHITE, "Color Gold     : G");
-        mlx_string_put(env->data.mlx, env->data.win, env->data.win_width - 180 - margin,  80 + 2, COLOR_WHITE, "Color B/W/R    : F");
-    }
-}
-
 static void		ft_transform_xyz(t_env *e, t_edit *pos, int *i)
 {
 	int		length;
@@ -86,11 +58,11 @@ void			ft_build_iso(t_env *env)
 	int		i;
 
 	i = 0;
-	ft_print_help(env);
 	while (i < env->data.map_total_size)
 	{
 		ft_transform_xyz(env, &pos, &i);
 		ft_print_lines(env, &pos, &i);
 		i++;
 	}
+	ft_display_command(env);
 }
