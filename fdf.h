@@ -21,9 +21,10 @@
 # include <mlx.h>
 # include <math.h>
 
+# define KEY_D 2
+# define KEY_H 4
 # define KEY_Q 12
-# define KEY_P 35
-# define KEY_L 37
+# define KEY_E 14
 
 # define KEY_W 13
 # define KEY_M 46
@@ -31,9 +32,10 @@
 # define KEY_F 3
 # define KEY_O 31
 
-# define KEY_SPACE 49
+# define KEY_SPC 49
 # define KEY_ESCAPE 53
 # define KEY_PLUS 69
+# define KEY_DOT 65
 # define KEY_LESS 78
 # define ARROW_LEFT 123
 # define ARROW_RIGHT 124
@@ -42,17 +44,17 @@
 
 # define COLOR_GOLD 0x00ffcc00
 # define COLOR_BLACK 0x00000000
-# define COLOR_WHITE 0x00ffffff;
-# define COLOR_BLACK_BROWN 0x002F1D13;
-# define COLOR_LIGHT_BROWN 0x00A05A00;
-# define COLOR_GREEN_YELLOW 0x00B59F25;
-# define COLOR_YELLOW 0x00E6E632;
-# define COLOR_BROWN 0x007d4c00;
-# define COLOR_GREEN 0x0016ac07;
-# define COLOR_DARK_GREEN 0x00078734;
-# define COLOR_BLUE 0x000c6cd1;
-# define COLOR_BLUE_BBR 0x000023864;
-# define COLOR_RED_BBR 0x000D50020;
+# define COLOR_WHITE 0x00ffffff
+# define COLOR_BLACK_BROWN 0x002F1D13
+# define COLOR_LIGHT_BROWN 0x00A05A00
+# define COLOR_GREEN_YELLOW 0x00B59F25
+# define COLOR_YELLOW 0x00E6E632
+# define COLOR_BROWN 0x007d4c00
+# define COLOR_GREEN 0x0016ac07
+# define COLOR_DARK_GREEN 0x00078734
+# define COLOR_BLUE 0x000c6cd1
+# define COLOR_BLUE_BBR 0x000023864
+# define COLOR_RED_BBR 0x000D50020
 
 typedef	struct		s_color
 {
@@ -85,13 +87,15 @@ typedef	struct		s_data
 	int				pos_y_start;
 	float			zoom;
 	float			zoom_start;
-	float			deep;
+	float			elevation;
+	float			elevation_start;
 	int				x_max;
 	int				x_min;
 	int				y_max;
 	int				y_min;
 	int				z_max;
 	int				z_min;
+	int				help;
 }					t_data;
 
 typedef	struct		s_print
@@ -166,8 +170,7 @@ void				ft_build_iso(t_env *env);
 
 void				ft_color_type_map(t_env *env);
 void				ft_color_type_white(t_env *env);
-void				ft_color_type_gold(t_env *env);
-void				ft_color_type_original(t_env *env);
+void				ft_color_type_gold_original(t_env *env);
 void				ft_color_type_blue_red_white(t_env *env);
 void				ft_manage_colors(t_env *env, int *i, int plus);
 

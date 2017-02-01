@@ -23,53 +23,57 @@ static void		ft_push_exit(int keycode)
 		exit(1);
 }
 
-static int		ft_move_xy(int keycode, t_env *env)
+static int		ft_move_xy(int code, t_env *env)
 {
-	if (keycode == ARROW_LEFT || keycode == ARROW_RIGHT || keycode == ARROW_DOWN
-		|| keycode == ARROW_UP || keycode == KEY_SPACE)
+	if (code == ARROW_LEFT || code == ARROW_RIGHT || code == ARROW_DOWN
+	|| code == ARROW_UP || code == KEY_SPC || code == KEY_H || code == KEY_DOT)
 	{
-		if (keycode == ARROW_LEFT)
+		if (code == ARROW_LEFT)
 			env->data.pos_x += 10;
-		if (keycode == ARROW_RIGHT)
+		if (code == ARROW_RIGHT)
 			env->data.pos_x -= 10;
-		if (keycode == ARROW_DOWN)
+		if (code == ARROW_DOWN)
 			env->data.pos_y -= 10;
-		if (keycode == ARROW_UP)
+		if (code == ARROW_UP)
 			env->data.pos_y += 10;
-		if (keycode == KEY_SPACE)
+		if (code == KEY_SPC)
 		{
 			env->data.pos_x = env->data.pos_x_start;
 			env->data.pos_y = env->data.pos_y_start;
 			env->data.zoom = env->data.zoom_start;
 		}
+		env->data.elevation = (code == KEY_DOT) ?
+		env->data.elevation_start : env->data.elevation;
+		if (code == KEY_H)
+			env->data.help = 1 - env->data.help;
 		mlx_clear_window(env->data.mlx, env->data.win);
 		return (1);
 	}
 	return (0);
 }
 
-static int		ft_move_zoom_deep(int keycode, t_env *env)
+static int		ft_move_zoom_elevation(int keycode, t_env *env)
 {
 	float	change;
 
 	change = 0;
-	if (keycode == KEY_PLUS || keycode == KEY_LESS || keycode == KEY_P
-	|| keycode == KEY_L)
+	if (keycode == KEY_PLUS || keycode == KEY_LESS || keycode == KEY_D
+	|| keycode == KEY_E)
 	{
 		if (keycode == KEY_PLUS)
 			env->data.zoom += 1;
 		if (keycode == KEY_LESS)
 			env->data.zoom -= 1;
-		if (env->data.deep < 0.2 && env->data.deep > 0)
+		if (env->data.elevation < 0.2 && env->data.elevation > 0)
 			change = 0.01;
-		if (env->data.deep < 2 && env->data.deep > 0)
+		if (env->data.elevation < 2 && env->data.elevation > 0)
 			change = 0.1;
 		else
 			change = 0.5;
-		if (keycode == KEY_P)
-			env->data.deep += change;
-		if (keycode == KEY_L)
-			env->data.deep -= change;
+		if (keycode == KEY_E)
+			env->data.elevation += change;
+		if (keycode == KEY_D)
+			env->data.elevation -= change;
 		mlx_clear_window(env->data.mlx, env->data.win);
 		return (1);
 	}
@@ -82,7 +86,7 @@ int				ft_key_interact(int keycode, t_env *env)
 	ft_push_exit(keycode);
 	if (ft_move_xy(keycode, env) == 1)
 		ft_build_iso(env);
-	if (ft_move_zoom_deep(keycode, env) == 1)
+	if (ft_move_zoom_elevation(keycode, env) == 1)
 		ft_build_iso(env);
 	if (ft_interaction_color(keycode, env) == 1)
 		ft_build_iso(env);

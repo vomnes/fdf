@@ -74,7 +74,7 @@ void		ft_get_max_min_xyz(t_env *e)
 		e->data.zoom;
 		e->data.x_max = tmp_x > e->data.x_max ? tmp_x : e->data.x_max;
 		e->data.x_min = tmp_x < e->data.x_min ? tmp_x : e->data.x_min;
-		tmp_y = -0.81649658092 * e->coord[i].z * e->data.deep +
+		tmp_y = -0.81649658092 * e->coord[i].z * e->data.elevation +
 		(1 / sqrt(6) * (e->coord[i].x + e->coord[i].y)) * e->data.zoom;
 		e->data.y_max = tmp_y > e->data.y_max ? tmp_y : e->data.y_max;
 		e->data.y_min = tmp_y < e->data.y_min ? tmp_y : e->data.y_min;
