@@ -28,7 +28,7 @@ static void	ft_get_digit(char *input, t_env *env, int *i, int *index)
 		env->coord[*index].z = env->coord[*index].z * 10
 		+ (input[(*i)++] - '0');
 	env->coord[*index].z *= sign;
-	if (env->coord[*index].z >= 100000 || env->coord[*index].z <= -100000)
+	if (env->coord[*index].z >= 1000000 || env->coord[*index].z <= -1000000)
 		env->coord[*index].z = 0;
 	if (input[*i] == ',')
 	{
@@ -51,7 +51,7 @@ static void	ft_init_t_point(t_env *env, t_index *index)
 	env->coord[index->index].color.pick_up = 0;
 }
 
-static void	ft_change_line(t_env *env, char *input, t_index *index)
+static int	ft_change_line(t_env *env, char *input, t_index *index)
 {
 	if (input[index->i] == '\n')
 	{
@@ -59,12 +59,19 @@ static void	ft_change_line(t_env *env, char *input, t_index *index)
 		{
 			env->coord[index->index].x = index->x;
 			env->coord[index->index].y = index->y;
+			if ((input[index->i + 1] == '\n' ||
+			input[index->i + 1] == '\0') &&
+			env->coord[index->index].x == 1 &&
+			env->coord[index->index].y == 1 &&
+			index->index == 3 && env->data.map_total_size == 4)
+				return (-1);
 			index->index++;
 			index->x++;
 		}
 		index->y++;
 		index->x = 0;
 	}
+	return (0);
 }
 
 int			ft_coord_in_struct(char *input, t_env *env)
@@ -83,10 +90,12 @@ int			ft_coord_in_struct(char *input, t_env *env)
 			env->coord[index.index].x = index.x;
 			env->coord[index.index].y = index.y;
 			ft_get_digit(input, env, &(index.i), &(index.index));
+			env->data.tmp_index = index.index;
 			index.x++;
 			index.index++;
 		}
-		ft_change_line(env, input, &index);
+		if (ft_change_line(env, input, &index) == -1)
+			return (-1);
 		index.i++;
 	}
 	return (0);

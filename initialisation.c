@@ -77,6 +77,5 @@ void		ft_set_up_data(t_env *env)
 	env->data.win = mlx_new_window(env->data.mlx, env->data.win_width,
 					env->data.win_height, "fdf");
 	env->color.scale = white;
-    env->data.help = 0;
-//    ft_printf(">data.z_max : %d - data.z_min : %d\n", env->data.z_max, env->data.z_min);
+	env->data.help = 0;
 }
