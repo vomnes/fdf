@@ -6,7 +6,7 @@
 /*   By: vomnes <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 15:09:57 by vomnes            #+#    #+#             */
-/*   Updated: 2017/01/17 15:43:45 by vomnes           ###   ########.fr       */
+/*   Updated: 2017/01/25 18:04:48 by vomnes           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <stdlib.h>
 # include <string.h>
 # include <wchar.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
 typedef struct		s_list
 {
@@ -56,6 +59,9 @@ int					ft_isascii(int c);
 int					ft_isprint(int c);
 int					ft_toupper(int c);
 int					ft_tolower(int c);
+int					ft_isspace(int c);
+int					ft_islower(int c);
+int					ft_isxdigit(int c);
 
 void				*ft_memalloc(size_t size);
 void				ft_memdel(void **ap);
@@ -98,10 +104,10 @@ void				ft_lst_display_int(t_list *list);
 t_list				*ft_lst_strsplit(char const *s, char c);
 
 void				ft_swap(int *a, int *b);
-int					ft_isspace(int c);
-int					ft_islower(int c);
 int					ft_isupper(int c);
 int					ft_min(int x, int y, int z);
+int		ft_hex_to_dec(char *hex);
+int		ft_pow(int nb, int power);
 
 char				*ft_strnjoin(char const *s1, char const *s2, size_t n);
 size_t				ft_index_occ(const char *s, int c);

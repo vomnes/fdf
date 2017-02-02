@@ -90,7 +90,6 @@ int			ft_coord_in_struct(char *input, t_env *env)
 			env->coord[index.index].x = index.x;
 			env->coord[index.index].y = index.y;
 			ft_get_digit(input, env, &(index.i), &(index.index));
-			env->data.tmp_index = index.index;
 			index.x++;
 			index.index++;
 		}

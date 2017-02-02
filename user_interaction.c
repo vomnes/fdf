@@ -15,7 +15,7 @@
 static void		ft_push_exit(int keycode)
 {
 	if (keycode == KEY_ESCAPE || keycode == KEY_Q)
-		exit(1);
+		exit(0);
 }
 
 static int		ft_move_xy(int code, t_env *env)

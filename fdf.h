@@ -14,7 +14,6 @@
 # define FDF_H
 
 # include "libft.h"
-# include "ft_printf.h"
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>

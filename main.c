@@ -55,5 +55,7 @@ int			main(int args, char **argv)
 	ft_build_iso(&env);
 	mlx_key_hook(env.data.win, ft_key_interact, &env);
 	mlx_loop(env.data.mlx);
+	free (env.coord);
+	free (input);
 	return (0);
 }

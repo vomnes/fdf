@@ -23,7 +23,7 @@ static void	ft_display_help(t_env *env, int m)
 
 	right = env->data.win_width - 175 - m;
 	ft_display_string(env, m, 2, "Press ESC or Q for exit");
-	ft_display_string(env, m, 22, "Press H for display help");
+	ft_display_string(env, m, 22, "Press H for display the help");
 	ft_display_string(env, m, 42, "Arrows: Change position");
 	ft_display_string(env, m, 62, "  E   : Elevation");
 	ft_display_string(env, m, 82, "  D   : Deep");
@@ -49,7 +49,7 @@ void		ft_display_command(t_env *env)
 		if (env->data.help == 0)
 		{
 			ft_display_string(env, m, 2, "Press ESC or Q for exit");
-			ft_display_string(env, m, 22, "Press H for display help");
+			ft_display_string(env, m, 22, "Press H for display the help");
 		}
 		else
 			ft_display_help(env, m);

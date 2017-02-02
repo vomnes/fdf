@@ -1,9 +1,13 @@
 NAME = fdf
-SRC_PF =
+SRC = draw_line.c user_interaction.c get_input.c coord_in_struct.c \
+get_size.c build_iso.c select_color.c manage_color.c initialisation.c \
+display_command.c main.c
 
-OBJET_PF = $(SRC_PF:.c=.o)
+OBJET = $(SRC:.c=.o)
 
 FLAGS = -Wall -Werror -Wextra
+
+MLX = -lmlx -framework OpenGL -framework Appkit
 
 GCC = gcc
 MAKE = make
@@ -12,9 +16,10 @@ MAKE = make
 
 all: $(NAME)
 
-$(NAME): $(OBJET_PF) $(SRC_PF) $(LIB)
+$(NAME): $(OBJET)
 		@echo Compiling $(NAME)
-		@$(GCC) $(FLAGS) -c $(SRC_PF)
+		@$(GCC) $(FLAGS) -I . -c $(SRC)
+		@$(GCC) $(FLAGS) -o $(NAME) $(OBJET) -I . $(MLX) -L . -lft
 		@echo ======[Done]======
 
 %.o : %.c
@@ -22,7 +27,7 @@ $(NAME): $(OBJET_PF) $(SRC_PF) $(LIB)
 
 clean:
 		@echo Clean objects $(NAME)
-		@rm -rf $(OBJET_PF)
+		@rm -rf $(OBJET)
 
 fclean: clean
 		@echo Clean $(NAME)
