@@ -16,5 +16,5 @@ MiniLibX  is  an  easy  way  to  create graphical software, without any X-Win- d
 ### T2
 ![alt text](https://github.com/vomnes/fdf/blob/master/map_screenshot/Map_t2.png "Map T2")
 
-### Pyramide
+### Pyramid
 ![alt text](https://github.com/vomnes/fdf/blob/master/map_screenshot/Map_pyramide.png "Pyramide")
